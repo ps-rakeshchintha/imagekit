@@ -1,0 +1,110 @@
+.crop-image-wrapper {
+  height: 100%;
+  position: relative;
+  .flip-horizontal {
+    transform: rotate(90deg);
+  }
+  .mat-card-actions{
+    text-align: center;
+    padding: 0;
+  }
+  .mat-card{
+    text-align: center;
+  }
+  .image-container {
+    /*max-height: calc(100vh - 100px);*/
+    width: 100%;
+    height: 100%;
+    img {
+      max-width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+  .crop-options-container {
+    width: 200px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    & > * {
+      width: 100%;
+    }
+    label {
+      width: 100px;
+      display: inline-block;
+      text-align: left;
+    }
+    .info-icon {
+      margin-top: 5px;
+      margin-top: 4px;
+      margin-left: 5px;
+      font-size: 18px;
+    }
+    .mat-icon-button {
+      height: 46px;
+      width: 46px;
+      line-height: 46px;
+      .mat-icon {
+        height: 29px;
+        width: 29px;
+        line-height: 29px;
+        font-size: 29px;
+      }
+    }
+  }
+  .crop-options-container-mobile{
+    display: none;
+    padding: 10px;
+    margin-top: 10px;
+    .mat-card-content,
+    .mat-card-actions{
+      margin-bottom: 0px;
+    }
+    .mat-card-actions{
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    height: calc(100% - 114px);
+    .crop-options-container {
+      display: none;
+    }
+    .crop-options-container-mobile{
+      display: block;
+    }
+  }
+}
+.file-upload-wrapper{
+  text-align: center;
+  .mat-display-3{
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.01562em;
+    margin-bottom: 0.35em;
+    font-size: 3rem;
+  }
+  .mat-headline{
+    margin-bottom: 0.35em;
+    color: #0000008a;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.00833em;
+  }
+}
+.cropped-image-wrapper{
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  height: calc(100% - 300px);
+  position: relative;
+  .mat-card,.mat-card-content{
+    height: 100%;
+    img{
+      max-width:100%;
+      max-height:100%;
+    }
+  }
+}
