@@ -7,6 +7,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 const routes: Routes = [
   { path: 'crop-image', component: CropImageComponent },
   { path: '404', component: PageNotFoundComponent},
+  { path: '', component: CropImageComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full'}
 ];
 

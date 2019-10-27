@@ -115,9 +115,17 @@
 </div>
 
 <div class="cropped-image-wrapper" *ngIf="imageSelected && imageCropped">
+  <h2 class="mat-title">Here is the cropped image:</h2>
+  <div class="file-name-container">
+    File Name: modified_{{imageFileData.name}} ({{croppedImageWidth}} x {{croppedImageHeight}}px)
+  </div>
   <mat-card>
     <mat-card-content>
       <img [src]="croppedImageUrl">
     </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="goBackToCropView()">Go Back</button>
+      <button mat-raised-button color="primary" (click)="downloadImage()">Download</button>
+    </mat-card-actions>
   </mat-card>
 </div>

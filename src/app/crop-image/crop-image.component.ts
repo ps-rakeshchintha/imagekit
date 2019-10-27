@@ -110,4 +110,19 @@ export class CropImageComponent implements OnInit {
     this.croppedImageUrl = canvas.toDataURL(this.imageFileData.type);
     this.imageCropped = true;
   }
+
+  goBackToCropView(){
+    this.imageCropped = false;
+    this.changeDetectorRef.detectChanges();
+    this.initializeCropper();
+  }
+
+  downloadImage(){
+    let link = document.createElement("a");
+    link.href = this.croppedImageUrl;
+    link.download = "modified_" + this.imageFileData.name;
+    document.body.append(link);
+    link.click();
+    link.remove();
+  }
 }
