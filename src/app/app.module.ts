@@ -19,12 +19,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDividerModule } from '@angular/material/divider';
+import { LandingComponent } from './landing/landing.component';
+import { ResizeImageComponent } from './resize-image/resize-image.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CropImageComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LandingComponent,
+    ResizeImageComponent
   ],
   imports: [
     BrowserModule,
