@@ -51,6 +51,17 @@
         font-size: 29px;
       }
     }
+    .crop-rotate-wrapper{
+      .mat-icon{
+        margin-top: 10px;
+        position: relative;
+        top: 5px;
+      }
+      .mat-slider{
+        width: 160px;
+        margin-left: 10px;
+      }
+    }
   }
   .crop-options-container-mobile{
     display: none;
@@ -77,6 +88,8 @@
 }
 .file-upload-wrapper{
   text-align: center;
+  position: relative;
+  height: 100%;
   .mat-display-3{
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 300;

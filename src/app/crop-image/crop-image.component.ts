@@ -26,6 +26,7 @@ export class CropImageComponent implements OnInit {
   cropper: Cropper;
   isFlippedVertical: boolean = false;
   isFlippedHorizontal: boolean = false;
+  sliderValue: number = 0;
 
   @ViewChild('imgTarget', { static: false }) imgTarget: ElementRef;
 
@@ -97,6 +98,13 @@ export class CropImageComponent implements OnInit {
 
   rotate(deg: number) {
     this.cropper.rotate(deg);
+  }
+
+  sliderOnChange(value: number){
+    if(this.sliderValue !== value){
+      this.sliderValue = value;
+      this.cropper.rotateTo(value);
+    }
   }
 
   cropImage() {

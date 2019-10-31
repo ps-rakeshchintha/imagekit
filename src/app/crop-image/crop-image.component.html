@@ -14,7 +14,8 @@
 
   <mat-card class="crop-options-container" cdkDragBoundary=".crop-image-wrapper" cdkDrag>
     <mat-card-title>
-      Crop Options <mat-icon class="info-icon" matTooltip="You can change the position of this">help_outline</mat-icon>
+      Crop Options
+      <mat-icon cdkDragHandle class="info-icon" matTooltip="Move the options box by dragging this.">open_with</mat-icon>
     </mat-card-title>
     <mat-card-content>
       <mat-form-field>
@@ -56,7 +57,7 @@
           Drag Mode:
         </label>
         <button mat-icon-button aria-label="Image" matTooltip="Image" (click)="setDragMode('move')">
-          <mat-icon>open_with</mat-icon>
+          <mat-icon>crop_original</mat-icon>
         </button>
         <button mat-icon-button aria-label="Crop Box" matTooltip="Crop Box" (click)="setDragMode('crop')">
           <mat-icon>crop</mat-icon>
@@ -72,6 +73,11 @@
         <button mat-icon-button aria-label="Rotate Right" matTooltip="Rotate Right" (click)="rotate(-90)">
           <mat-icon>rotate_right</mat-icon>
         </button>
+      </div>
+      <div class="crop-rotate-wrapper" cdkDragDisabled="true">
+        <mat-icon matTooltip="Rotate">crop_rotate</mat-icon>
+        <mat-slider #mySlider (slide)="sliderOnChange(mySlider.value)"
+          thumbLabel tickInterval="1" min="0" max="360"></mat-slider>
       </div>
       <mat-divider></mat-divider>
     </mat-card-content>
@@ -95,7 +101,7 @@
         <mat-icon>zoom_in</mat-icon>
       </button>
       <button mat-icon-button aria-label="Image" matTooltip="Image" (click)="setDragMode('move')">
-        <mat-icon>open_with</mat-icon>
+        <mat-icon>crop_original</mat-icon>
       </button>
       <button mat-icon-button aria-label="Crop Box" matTooltip="Crop Box" (click)="setDragMode('crop')">
         <mat-icon>crop</mat-icon>
