@@ -23,16 +23,16 @@
     </div>
 
     <mat-form-field>
-      <input type="number" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput placeholder="Width">
+      <input type="number" min="1" max="100" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput placeholder="Width">
     </mat-form-field>
 
     <mat-form-field>
-      <input type="number" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput placeholder="Height">
+      <input type="number" min="1" max="100" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput placeholder="Height">
     </mat-form-field>
     <div>
         <mat-slide-toggle (change)="restResize()" [(ngModel)]="maintainAspectRatio">Maintain Aspect Ratio</mat-slide-toggle>
     </div>
-    <div>
+    <div style="display: none;">
         <mat-slide-toggle (change)="restResize()" [(ngModel)]="maintainMaxSize">Do not enlarge if smaller</mat-slide-toggle>
     </div>
   </div>
