@@ -12,10 +12,16 @@ mat-toolbar.mat-toolbar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
 }
 .app-content {
+  /*padding: 64px 0rem 0rem;*/
   padding: 80px 1rem 1rem;
   bottom: 0;
   left: 0;
   position: absolute;
   top: 0;
   right: 0;
+  /*
+  @media (max-width: 599px) {
+    padding: 56px 0rem 0rem;
+  }
+  */
 }

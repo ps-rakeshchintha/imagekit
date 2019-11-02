@@ -1,137 +1,139 @@
-<div class="file-upload-wrapper" *ngIf="!imageSelected && !imageCropped">
-  <h1 class="mat-display-3">Crop Image</h1>
-  <h2 class="mat-headline">Crop <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by simply selecting the area you want</h2>
-  <div>
-    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Select Image</button>
-    <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/*" id="crop-image">
-  </div>
-</div>
-
-<div class="crop-image-wrapper" *ngIf="imageSelected && !imageCropped">
-  <div class="image-container" [class.mat-elevation-z2]="true">
-    <img #imgTarget [src]="imageUrl">
+<div class="file-upload-wrapper" *ngIf="!imageSelected && !imageCropped" appDragDrop (files)="filesDropped($event)">
+    <h1 class="mat-display-3">Crop Image</h1>
+    <h2 class="mat-headline">Crop <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by simply selecting the area you want</h2>
+    <div>
+      <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Select Image</button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/*" id="crop-image">
+    </div>
+    <span class="mat-caption">or drag the images here</span>
   </div>
 
-  <mat-card class="crop-options-container" cdkDragBoundary=".crop-image-wrapper" cdkDrag>
-    <mat-card-title>
-      Crop Options
-      <mat-icon cdkDragHandle class="info-icon" matTooltip="Move the options box by dragging this.">open_with</mat-icon>
-    </mat-card-title>
-    <mat-card-content>
-      <mat-form-field>
-        <mat-select [(ngModel)]="aspectRatio" placeholder="Aspect Ratio" (selectionChange)="aspectRatioChanged()">
-          <mat-option [value]="-1">Freeform</mat-option>
-          <mat-option [value]="1">Square 1x1</mat-option>
-          <mat-option [value]="4/6">Photo 4x6</mat-option>
-          <mat-option [value]="5/7">Photo 5x7</mat-option>
-          <mat-option [value]="8/10">Photo 8x10</mat-option>
-          <mat-option [value]="16/9">Photo 16x9</mat-option>
-          <mat-option [value]="3/2">Image 3:2</mat-option>
-          <mat-option [value]="4/3">Image 4:3</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div>
-        <label>
-          Flip:
-        </label>
+  <div class="crop-image-wrapper" *ngIf="imageSelected && !imageCropped">
+    <div class="image-container" [class.mat-elevation-z2]="true">
+      <img #imgTarget [src]="imageUrl">
+    </div>
+
+    <mat-card class="crop-options-container" cdkDragBoundary=".crop-image-wrapper" cdkDrag>
+      <mat-card-title>
+        Crop Options
+        <mat-icon cdkDragHandle class="info-icon" matTooltip="Move the options box by dragging this.">open_with
+        </mat-icon>
+      </mat-card-title>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-select [(ngModel)]="aspectRatio" placeholder="Aspect Ratio" (selectionChange)="aspectRatioChanged()">
+            <mat-option [value]="-1">Freeform</mat-option>
+            <mat-option [value]="1">Square 1x1</mat-option>
+            <mat-option [value]="4/6">Photo 4x6</mat-option>
+            <mat-option [value]="5/7">Photo 5x7</mat-option>
+            <mat-option [value]="8/10">Photo 8x10</mat-option>
+            <mat-option [value]="16/9">Photo 16x9</mat-option>
+            <mat-option [value]="3/2">Image 3:2</mat-option>
+            <mat-option [value]="4/3">Image 4:3</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <label>
+            Flip:
+          </label>
+          <button mat-icon-button aria-label="Flip Vertical" matTooltip="Flip Vertical" (click)="flipVertical()">
+            <mat-icon class="flip-horizontal">flip</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Flip Horizontal" matTooltip="Flip Horizontal" (click)="flipHorizontal()">
+            <mat-icon>flip</mat-icon>
+          </button>
+        </div>
+        <div>
+          <label>
+            Zoom:
+          </label>
+          <button mat-icon-button aria-label="Zoom Out" matTooltip="Zoom Out" (click)="zoomOut()">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Zoom In" matTooltip="Zoom In" (click)="zoomIn()">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+        </div>
+        <div>
+          <label>
+            Drag Mode:
+          </label>
+          <button mat-icon-button aria-label="Image" matTooltip="Image" (click)="setDragMode('move')">
+            <mat-icon>crop_original</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Crop Box" matTooltip="Crop Box" (click)="setDragMode('crop')">
+            <mat-icon>crop</mat-icon>
+          </button>
+        </div>
+        <div>
+          <label>
+            Rotate:
+          </label>
+          <button mat-icon-button aria-label="Rotate Left" matTooltip="Rotate Left" (click)="rotate(-90)">
+            <mat-icon>rotate_left</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Rotate Right" matTooltip="Rotate Right" (click)="rotate(-90)">
+            <mat-icon>rotate_right</mat-icon>
+          </button>
+        </div>
+        <div class="crop-rotate-wrapper" cdkDragDisabled="true">
+          <mat-icon matTooltip="Rotate">crop_rotate</mat-icon>
+          <mat-slider #mySlider (slide)="sliderOnChange(mySlider.value)" thumbLabel tickInterval="1" min="0" max="360">
+          </mat-slider>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="cropImage()">Crop Image</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="crop-options-container-mobile">
+      <mat-card-content>
         <button mat-icon-button aria-label="Flip Vertical" matTooltip="Flip Vertical" (click)="flipVertical()">
-          <mat-icon>flip</mat-icon>
-        </button>
-        <button mat-icon-button aria-label="Flip Horizontal" matTooltip="Flip Horizontal" (click)="flipHorizontal()">
           <mat-icon class="flip-horizontal">flip</mat-icon>
         </button>
-      </div>
-      <div>
-        <label>
-          Zoom:
-        </label>
+        <button mat-icon-button aria-label="Flip Horizontal" matTooltip="Flip Horizontal" (click)="flipHorizontal()">
+          <mat-icon>flip</mat-icon>
+        </button>
         <button mat-icon-button aria-label="Zoom Out" matTooltip="Zoom Out" (click)="zoomOut()">
           <mat-icon>zoom_out</mat-icon>
         </button>
         <button mat-icon-button aria-label="Zoom In" matTooltip="Zoom In" (click)="zoomIn()">
           <mat-icon>zoom_in</mat-icon>
         </button>
-      </div>
-      <div>
-        <label>
-          Drag Mode:
-        </label>
         <button mat-icon-button aria-label="Image" matTooltip="Image" (click)="setDragMode('move')">
           <mat-icon>crop_original</mat-icon>
         </button>
         <button mat-icon-button aria-label="Crop Box" matTooltip="Crop Box" (click)="setDragMode('crop')">
           <mat-icon>crop</mat-icon>
         </button>
-      </div>
-      <div>
-        <label>
-          Rotate:
-        </label>
         <button mat-icon-button aria-label="Rotate Left" matTooltip="Rotate Left" (click)="rotate(-90)">
           <mat-icon>rotate_left</mat-icon>
         </button>
         <button mat-icon-button aria-label="Rotate Right" matTooltip="Rotate Right" (click)="rotate(-90)">
           <mat-icon>rotate_right</mat-icon>
         </button>
-      </div>
-      <div class="crop-rotate-wrapper" cdkDragDisabled="true">
-        <mat-icon matTooltip="Rotate">crop_rotate</mat-icon>
-        <mat-slider #mySlider (slide)="sliderOnChange(mySlider.value)"
-          thumbLabel tickInterval="1" min="0" max="360"></mat-slider>
-      </div>
+      </mat-card-content>
       <mat-divider></mat-divider>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="cropImage()">Crop Image</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-card class="crop-options-container-mobile">
-    <mat-card-content>
-      <button mat-icon-button aria-label="Flip Vertical" matTooltip="Flip Vertical" (click)="flipVertical()">
-        <mat-icon>flip</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Flip Horizontal" matTooltip="Flip Horizontal" (click)="flipHorizontal()">
-        <mat-icon class="flip-horizontal">flip</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Zoom Out" matTooltip="Zoom Out" (click)="zoomOut()">
-        <mat-icon>zoom_out</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Zoom In" matTooltip="Zoom In" (click)="zoomIn()">
-        <mat-icon>zoom_in</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Image" matTooltip="Image" (click)="setDragMode('move')">
-        <mat-icon>crop_original</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Crop Box" matTooltip="Crop Box" (click)="setDragMode('crop')">
-        <mat-icon>crop</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Rotate Left" matTooltip="Rotate Left" (click)="rotate(-90)">
-        <mat-icon>rotate_left</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Rotate Right" matTooltip="Rotate Right" (click)="rotate(-90)">
-        <mat-icon>rotate_right</mat-icon>
-      </button>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="cropImage()">Crop Image</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
-
-<div class="cropped-image-wrapper" *ngIf="imageSelected && imageCropped">
-  <h2 class="mat-title">Here is the cropped image:</h2>
-  <div class="file-name-container">
-    File Name: modified_{{imageFileData.name}} ({{croppedImageWidth}} x {{croppedImageHeight}}px)
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="cropImage()">Crop Image</button>
+      </mat-card-actions>
+    </mat-card>
   </div>
-  <mat-card>
-    <mat-card-content>
-      <img [src]="croppedImageUrl">
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="goBackToCropView()">Go Back</button>
-      <button mat-raised-button color="primary" (click)="downloadImage()">Download</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+
+  <div class="cropped-image-wrapper" *ngIf="imageSelected && imageCropped">
+    <h2 class="mat-title">Here is the cropped image:</h2>
+    <div class="file-name-container">
+      File Name: modified_{{imageFileData.name}} ({{croppedImageWidth}} x {{croppedImageHeight}}px)
+    </div>
+    <mat-card>
+      <mat-card-content>
+        <img [src]="croppedImageUrl">
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="goBackToCropView()">Go Back</button>
+        <button mat-raised-button color="primary" (click)="downloadImage()">Download</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

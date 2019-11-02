@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import Cropper from 'cropperjs';
+import { FileHandle } from '../directives/drag-drop.directive';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-crop-image',
@@ -30,14 +32,28 @@ export class CropImageComponent implements OnInit {
 
   @ViewChild('imgTarget', { static: false }) imgTarget: ElementRef;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private changeDetectorRef: ChangeDetectorRef, private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
 
   onFileSelected(fileInput: any) {
     this.imageFileData = <File>fileInput.target.files[0];
-    console.log(this.imageFileData);
+    this.readFile();
+  }
+
+  filesDropped(files: FileHandle[]): void {
+    if(files.length > 1){
+      this._snackBar.open("You have selected more than one file. Cropping an image only support one file at a time for now.", "Dismiss", {
+        duration: 3000,
+      });
+    }
+    this.imageFileData = <File>files[0].file;
+    this.readFile();
+  }
+
+  readFile(){
+    //console.log(this.imageFileData);
     var mimeType = this.imageFileData.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
@@ -59,13 +75,13 @@ export class CropImageComponent implements OnInit {
       zoomOnWheel: false,
       zoomOnTouch: false,
       crop(event) {
-        console.log(event.detail.x);
-        console.log(event.detail.y);
-        console.log(event.detail.width);
-        console.log(event.detail.height);
-        console.log(event.detail.rotate);
-        console.log(event.detail.scaleX);
-        console.log(event.detail.scaleY);
+        // console.log(event.detail.x);
+        // console.log(event.detail.y);
+        // console.log(event.detail.width);
+        // console.log(event.detail.height);
+        // console.log(event.detail.rotate);
+        // console.log(event.detail.scaleX);
+        // console.log(event.detail.scaleY);
       },
     });
   }

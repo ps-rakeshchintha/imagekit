@@ -21,7 +21,11 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSliderModule } from '@angular/material/slider';
-
+import { DragDropDirective } from './directives/drag-drop.directive';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,8 @@ import { MatSliderModule } from '@angular/material/slider';
     CropImageComponent,
     PageNotFoundComponent,
     LandingComponent,
-    ResizeImageComponent
+    ResizeImageComponent,
+    DragDropDirective
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,11 @@ import { MatSliderModule } from '@angular/material/slider';
     MatTooltipModule,
     FormsModule,
     DragDropModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule,
+    MatChipsModule,
+    MatRadioModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,71 @@
-<p>resize-image works!</p>
+<div class="file-upload-wrapper" *ngIf="!imagesSelected" appDragDrop (files)="filesDropped($event)">
+  <h1 class="mat-display-3">Resize Images</h1>
+  <h2 class="mat-headline">Resize <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
+  <div>
+    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Select Images</button>
+  </div>
+  <span class="mat-caption">or drag the images here</span>
+</div>
+
+<div class="image-resize-wrapper" *ngIf="imagesSelected" appDragDrop (files)="filesDropped($event)">
+  <div class="options-container">
+    <h3 class=".mat-h3">Resize Options</h3>
+    <div>
+      <label id="resize-by-label">By:</label>
+      <mat-radio-group aria-labelledby="resize-by-label" [(ngModel)]="resizeByValue" (change)="resizeTypeChanged()" class="resize-radio-group">
+        <mat-radio-button value="percentage" class="resize-radio-button">
+          Percentage
+        </mat-radio-button>
+        <mat-radio-button value="pixels" class="resize-radio-button">
+          Pixels
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field>
+      <input type="number" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput placeholder="Width">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="number" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput placeholder="Height">
+    </mat-form-field>
+    <div>
+        <mat-slide-toggle (change)="restResize()" [(ngModel)]="maintainAspectRatio">Maintain Aspect Ratio</mat-slide-toggle>
+    </div>
+    <div>
+        <mat-slide-toggle (change)="restResize()" [(ngModel)]="maintainMaxSize">Do not enlarge if smaller</mat-slide-toggle>
+    </div>
+  </div>
+  <div class="images-container">
+    <mat-card *ngFor="let imageData of imageFilesData" (mouseenter)="hoverImagEnter(imageData)"
+      (mouseleave)="hoverImagLeave(imageData)" [ngClass]="{'hovered': imageData.isHovered}">
+      <mat-card-content>
+        <div class="image-remove-container">
+          <button matTooltip="Remove image" *ngIf="imageData.isHovered" class="remove-button" mat-button color="accent"
+            aria-label="Remove Image" (click)="removeImage(imageData)">
+            <mat-icon>highlight_off</mat-icon>
+          </button>
+        </div>
+        <div class="image-container">
+          <img [src]="imageData.url">
+        </div>
+        <div class="image-data-container">
+          <div class="mat-h4">{{imageData.name}}</div>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip matTooltip="Original dimensions">{{imageData.width}} X {{imageData.height}} PX</mat-chip>
+            <mat-icon class="arrow-icon">arrow_forward_ios</mat-icon>
+            <mat-chip matTooltip="Result dimensions" color="primary" selected>{{imageData.resizeWidth}} X
+              {{imageData.resizeHeight}}
+              PX</mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <button matTooltip="Add more images" class="add-images-button fab-button" (click)="fileInput.click()" mat-fab
+      aria-label="Add More Images">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<input hidden (change)="onFilesSelected($event)" #fileInput multiple type="file" accept="image/*" id="resize-image">
