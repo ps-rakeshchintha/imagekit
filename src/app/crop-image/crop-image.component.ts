@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ImageDataObj } from '../models/image-data';
 
 import { RedirectService } from '../services/redirect.service';
+import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-crop-image',
@@ -38,7 +39,13 @@ export class CropImageComponent implements OnInit {
 
   @ViewChild('imgTarget', { static: false }) imgTarget: ElementRef;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private _snackBar: MatSnackBar, private router: Router, private redirectService: RedirectService) { }
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+    private _snackBar: MatSnackBar,
+    private router: Router,
+    private redirectService: RedirectService,
+    private seoService: SeoService) {
+    this.seoService.addMetaTags("Crop JPEG, PNG, SVG for free", "Crop JPEG, PNG, SVG and any other image format for free in seconds");
+  }
 
   ngOnInit() {
   }
@@ -151,16 +158,16 @@ export class CropImageComponent implements OnInit {
 
   goToResizePage() {
     const imageData: ImageDataObj = {
-      file : this.croppedCanvas,
-      width : this.croppedImageWidth,
+      file: this.croppedCanvas,
+      width: this.croppedImageWidth,
       height: this.croppedImageHeight,
-      resizeWidth : this.croppedImageWidth,
+      resizeWidth: this.croppedImageWidth,
       resizeHeight: this.croppedImageHeight,
       url: this.croppedImageUrl,
       type: this.imageFileData.type,
       name: this.imageFileData.name,
       id: 1,
-      aspectRatio: this.croppedImageWidth/this.croppedImageHeight
+      aspectRatio: this.croppedImageWidth / this.croppedImageHeight
     }
     this.redirectService.setCroppedImageData(imageData)
     this.router.navigate(['/resize-image']);

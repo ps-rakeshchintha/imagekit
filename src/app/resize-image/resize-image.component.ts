@@ -3,7 +3,9 @@ import { FileHandle } from '../directives/drag-drop.directive';
 import { ImageDataObj } from '../models/image-data';
 import JSZip from 'jszip';
 import FileSaver from 'file-saver';
+
 import { RedirectService } from '../services/redirect.service';
+import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-resize-image',
@@ -26,7 +28,9 @@ export class ResizeImageComponent implements OnInit {
   resizeHeight: number = 100;
   globalAspectRatio: number;
 
-  constructor(private redirectService: RedirectService) { }
+  constructor(private redirectService: RedirectService, private seoService: SeoService) {
+    this.seoService.addMetaTags("Resize JPEG, PNG, SVG for free", "Resize single or multiple images of JPEG, PNG, SVG and any other image format at once easily and quickly.");
+   }
 
   ngOnInit() {
     const croppedImage: ImageDataObj = this.redirectService.getCropperImageData()
@@ -206,7 +210,7 @@ export class ResizeImageComponent implements OnInit {
         FileSaver.saveAs(resizeUrl, image.name);
       }
     }
-    if(!isSingleImage){
+    if (!isSingleImage) {
       zip.generateAsync({ type: "blob" }).then(function (content) {
         FileSaver.saveAs(content, "download.zip");
       });
