@@ -1,14 +1,15 @@
-<div class="file-upload-wrapper" *ngIf="!imagesSelected" appDragDrop (files)="filesDropped($event)">
+<div class="file-upload-wrapper" *ngIf="!imagesSelected && !imagesResized" appDragDrop (files)="filesDropped($event)">
   <h1 class="mat-display-3">Resize Images</h1>
   <h2 class="mat-headline">Resize <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
   <div>
     <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
-    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*" id="resize-image-1">
+    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*"
+      id="resize-image-1">
   </div>
   <span class="mat-caption">or drag the images here</span>
 </div>
 
-<div class="image-resize-wrapper" *ngIf="imagesSelected" appDragDrop (files)="filesDropped($event)">
+<div class="image-resize-wrapper" *ngIf="imagesSelected && !imagesResized" appDragDrop (files)="filesDropped($event)">
   <div class="options-container">
     <h3 class=".mat-h3">Resize Options</h3>
     <div>
@@ -24,24 +25,37 @@
       </mat-radio-group>
     </div>
 
-    <mat-form-field>
+    <mat-form-field class="resize-desktop-input">
       <input type="number" min="1" max="100" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput
         placeholder="Width">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="resize-desktop-input">
       <input type="number" min="1" max="100" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput
         placeholder="Height">
     </mat-form-field>
+    <div class="resize-mobile-input">
+      <mat-form-field class="width-field">
+        <input type="number" min="1" max="100" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput
+          placeholder="Width">
+      </mat-form-field>
+
+      <mat-form-field class="height-field">
+        <input type="number" min="1" max="100" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput
+          placeholder="Height">
+      </mat-form-field>
+    </div>
     <div>
       <mat-slide-toggle [(ngModel)]="maintainAspectRatio">Maintain Aspect Ratio</mat-slide-toggle>
     </div>
     <div>
-      <mat-slide-toggle (change)="resetMaintainSize()" [(ngModel)]="maintainMaxSize">Do not enlarge if smaller</mat-slide-toggle>
+      <mat-slide-toggle (change)="resetMaintainSize()" [(ngModel)]="maintainMaxSize">Do not enlarge if smaller
+      </mat-slide-toggle>
     </div>
     <mat-divider></mat-divider>
     <div class="resize-button-wrapper">
-        <button [disabled]="!resizeWidth && !resizeHeight" type="button" mat-raised-button color="primary" (click)="resizeImages()">Resize Images</button>
+      <button [disabled]="!resizeWidth && !resizeHeight" type="button" mat-raised-button color="primary"
+        (click)="resizeImages()">Resize Images</button>
     </div>
   </div>
   <div class="images-container">
@@ -75,6 +89,19 @@
       aria-label="Add More Images">
       <mat-icon>add</mat-icon>
     </button>
-    <input hidden (change)="onFilesSelected($event)" #fileInput2 multiple type="file" accept="image/*" id="resize-image-2">
+    <input hidden (change)="onFilesSelected($event)" #fileInput2 multiple type="file" accept="image/*"
+      id="resize-image-2">
   </div>
+</div>
+
+<div class="resized-image-wrapper" *ngIf="imagesSelected && imagesResized">
+  <mat-card>
+    <mat-card-content>
+      <h2 class="mat-title">Your images are resized and ready for download</h2>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="goBackToResizeView()">Go Back</button>
+      <button mat-raised-button color="primary" (click)="downloadImages()">Download</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

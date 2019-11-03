@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, Inject } f
 import Cropper from 'cropperjs';
 import { FileHandle } from '../directives/drag-drop.directive';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-crop-image',
@@ -142,11 +143,6 @@ export class CropImageComponent implements OnInit {
   }
 
   downloadImage(){
-    let link = document.createElement("a");
-    link.href = this.croppedImageUrl;
-    link.download = this.imageFileData.name;
-    document.body.append(link);
-    link.click();
-    link.remove();
+    FileSaver.saveAs(this.croppedImageUrl, this.imageFileData.name);
   }
 }

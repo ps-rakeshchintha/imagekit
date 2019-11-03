@@ -1,6 +1,5 @@
 .image-resize-wrapper {
   position: relative;
-  height: 100%;
   .options-container {
     width: 270px;
     height: 100%;
@@ -8,9 +7,13 @@
     background-color: #f2f2f2;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     padding: 0 15px;
     & > * {
       width: 100%;
+    }
+    .resize-mobile-input {
+      display: none;
     }
     #resize-by-label {
       margin-right: 10px;
@@ -39,7 +42,7 @@
     flex-wrap: wrap;
     float: left;
     .mat-card {
-      width: 330px;
+      width: 290px;
       height: 450px;
       margin: 10px;
       background-color: rgba(242, 242, 242, 0.5);
@@ -75,10 +78,63 @@
         }
       }
     }
+    .add-images-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+    }
   }
-  .add-images-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
+  @media (min-width: 1000px) {
+    height: 100%;
   }
+  @media (max-width: 1000px) {
+    width: initial;
+    .options-container {
+      width: calc(100% - 30px);
+      height: 300px;
+      float: none;
+      .resize-desktop-input {
+        display: none;
+      }
+      .resize-mobile-input {
+        display: flex;
+        flex-direction: row;
+        .mat-form-field{
+          width: calc(50% - 10px);
+        }
+        .width-field {
+          margin-right: 20px;
+        }
+      }
+    }
+    .images-container {
+      width: 100%;
+      float: none;
+      margin-bottom: 60px;
+      .mat-card{
+        margin: 10px;
+        .mat-chip{
+          font-size: 12px !important;
+        }
+      }
+      .add-images-button{
+        bottom: 15px;
+        right: 15px;
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    .images-container {
+      .mat-card{
+        margin: 10px 0;
+      }
+    }
+  }
+}
+.resized-image-wrapper {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  height: 50%;
+  position: relative;
 }

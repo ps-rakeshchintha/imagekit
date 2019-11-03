@@ -14,6 +14,7 @@ export class ResizeImageComponent implements OnInit {
 
   imageFilesData: ImageData[] = [];
   imagesSelected: boolean = false;
+  imagesResized: boolean = false;
   imageId: number = 0;
   imagesCount: number = 0;
 
@@ -52,6 +53,8 @@ export class ResizeImageComponent implements OnInit {
           //console.log("The image width is " + this.width + " and image height is " + this.height);
           that.imageId++;
           const imageId = that.imageId;
+          const duplicateFileCount: number = that.imageFilesData.filter(img => img.name === file.name).length;
+          const duplicateFilePrefix: string = duplicateFileCount > 1 ? `(${duplicateFileCount})` : '';
           that.imageFilesData.push({
             id: that.imageId,
             name: file.name,
@@ -176,7 +179,11 @@ export class ResizeImageComponent implements OnInit {
     }
   }
 
-  resizeImages() {
+  goBackToResizeView(){
+    this.imagesResized = false;
+  }
+
+  downloadImages(){
     let zip: JSZip = new JSZip();
     for (const image of this.imageFilesData) {
       let resize_canvas = document.createElement('canvas');
@@ -190,6 +197,10 @@ export class ResizeImageComponent implements OnInit {
     zip.generateAsync({ type: "blob" }).then(function (content) {
       FileSaver.saveAs(content, "download.zip");
     });
+  }
+
+  resizeImages() {
+    this.imagesResized = true;
   }
 
 }
