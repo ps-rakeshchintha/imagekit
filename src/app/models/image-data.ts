@@ -9,4 +9,5 @@ export interface ImageData {
   isHovered?: boolean;
   resizeWidth: number;
   resizeHeight: number;
+  type: string;
 }

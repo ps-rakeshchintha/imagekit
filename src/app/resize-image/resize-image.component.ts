@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FileHandle } from '../directives/drag-drop.directive';
 import { ImageData } from '../models/image-data';
+import JSZip from 'jszip';
+import FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-resize-image',
@@ -59,7 +61,8 @@ export class ResizeImageComponent implements OnInit {
             resizeWidth: this.width,
             resizeHeight: this.height,
             aspectRatio: this.width / this.height,
-            file: image
+            file: image,
+            type: file.type
           });
           that.imagesCount = that.imageFilesData.length;
           if (that.imagesSelected) {
@@ -139,7 +142,7 @@ export class ResizeImageComponent implements OnInit {
     this.calcAllImageDimensions("height");
   }
 
-  resetMaintainSize(){
+  resetMaintainSize() {
     this.calcAllImageDimensions(this.resizeWidth ? "width" : "height");
   }
 
@@ -174,13 +177,19 @@ export class ResizeImageComponent implements OnInit {
   }
 
   resizeImages() {
+    let zip: JSZip = new JSZip();
     for (const image of this.imageFilesData) {
       let resize_canvas = document.createElement('canvas');
       resize_canvas.width = image.resizeWidth;
       resize_canvas.height = image.resizeHeight;
       resize_canvas.getContext('2d').drawImage(image.file, 0, 0, image.resizeWidth, image.resizeHeight);
+      var resizeUrl = resize_canvas.toDataURL(image.type)
+      zip.file(image.name, resizeUrl.split('base64,')[1], { base64: true })
       //$(image_target).attr('src', resize_canvas.toDataURL("image/png"));
     }
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      FileSaver.saveAs(content, "download.zip");
+    });
   }
 
 }
