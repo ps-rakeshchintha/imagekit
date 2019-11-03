@@ -73,8 +73,6 @@ export class CropImageComponent implements OnInit {
   initializeCropper() {
     this.cropper = new Cropper(this.imgTarget.nativeElement, {
       initialAspectRatio: 16 / 9,
-      zoomOnWheel: false,
-      zoomOnTouch: false,
       crop(event) {
         // console.log(event.detail.x);
         // console.log(event.detail.y);
