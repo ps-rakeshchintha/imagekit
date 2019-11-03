@@ -136,4 +136,11 @@
       <button mat-raised-button color="primary" (click)="downloadImage()">Download</button>
     </mat-card-actions>
   </mat-card>
+  <mat-menu #editMenu="matMenu" yPosition="below">
+    <button mat-menu-item (click)="goToResizePage()">Resize</button>
+    <button mat-menu-item>Help</button>
+  </mat-menu>
+  <div class="cf-text">
+    Do you want to <button color="primary" class="edit-button" mat-button [matMenuTriggerFor]="editMenu">Edit <mat-icon>keyboard_arrow_down</mat-icon></button> this image?
+  </div>
 </div>

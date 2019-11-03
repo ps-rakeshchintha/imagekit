@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, Inject } from '@angular/core';
 import Cropper from 'cropperjs';
 import { FileHandle } from '../directives/drag-drop.directive';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import FileSaver from 'file-saver';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crop-image',
@@ -33,7 +34,7 @@ export class CropImageComponent implements OnInit {
 
   @ViewChild('imgTarget', { static: false }) imgTarget: ElementRef;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private _snackBar: MatSnackBar) { }
+  constructor(private changeDetectorRef: ChangeDetectorRef, private _snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit() {
   }
@@ -44,7 +45,7 @@ export class CropImageComponent implements OnInit {
   }
 
   filesDropped(files: FileHandle[]): void {
-    if(files.length > 1){
+    if (files.length > 1) {
       this._snackBar.open("You have selected more than one file. Cropping an image only support one file at a time for now.", "Dismiss", {
         duration: 3000,
       });
@@ -53,7 +54,7 @@ export class CropImageComponent implements OnInit {
     this.readFile();
   }
 
-  readFile(){
+  readFile() {
     //console.log(this.imageFileData);
     var mimeType = this.imageFileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -115,8 +116,8 @@ export class CropImageComponent implements OnInit {
     this.cropper.rotate(deg);
   }
 
-  sliderOnChange(value: number){
-    if(this.sliderValue !== value){
+  sliderOnChange(value: number) {
+    if (this.sliderValue !== value) {
       this.sliderValue = value;
       this.cropper.rotateTo(value);
     }
@@ -134,13 +135,17 @@ export class CropImageComponent implements OnInit {
     this.imageCropped = true;
   }
 
-  goBackToCropView(){
+  goBackToCropView() {
     this.imageCropped = false;
     this.changeDetectorRef.detectChanges();
     this.initializeCropper();
   }
 
-  downloadImage(){
+  downloadImage() {
     FileSaver.saveAs(this.croppedImageUrl, this.imageFileData.name);
+  }
+
+  goToResizePage() {
+    this.router.navigate(['/resize-image']);
   }
 }
