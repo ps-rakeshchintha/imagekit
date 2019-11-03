@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FileHandle } from '../directives/drag-drop.directive';
-import { ImageData } from '../models/image-data';
+import { ImageDataObj } from '../models/image-data';
 import JSZip from 'jszip';
 import FileSaver from 'file-saver';
+import { RedirectService } from '../services/redirect.service';
 
 @Component({
   selector: 'app-resize-image',
@@ -12,7 +13,7 @@ import FileSaver from 'file-saver';
 
 export class ResizeImageComponent implements OnInit {
 
-  imageFilesData: ImageData[] = [];
+  imageFilesData: ImageDataObj[] = [];
   imagesSelected: boolean = false;
   imagesResized: boolean = false;
   imageId: number = 0;
@@ -25,9 +26,16 @@ export class ResizeImageComponent implements OnInit {
   resizeHeight: number = 100;
   globalAspectRatio: number;
 
-  constructor() { }
+  constructor(private redirectService: RedirectService) { }
 
   ngOnInit() {
+    const croppedImage: ImageDataObj = this.redirectService.getCropperImageData()
+    if (croppedImage) {
+      this.redirectService.setCroppedImageData(undefined);
+      this.imageFilesData.push(croppedImage);
+      this.imagesSelected = true;
+      this.imagesCount = 1;
+    }
   }
 
   onFilesSelected(fileInput: any) {
@@ -81,7 +89,7 @@ export class ResizeImageComponent implements OnInit {
     }
   }
 
-  removeImage(imageData: ImageData) {
+  removeImage(imageData: ImageDataObj) {
     this.imageFilesData = this.imageFilesData.filter(data => data.id !== imageData.id);
     this.imagesCount--;
     if (this.imagesCount === 0) {
@@ -89,11 +97,11 @@ export class ResizeImageComponent implements OnInit {
     }
   }
 
-  hoverImagEnter(imageData: ImageData) {
+  hoverImagEnter(imageData: ImageDataObj) {
     imageData.isHovered = true;
   }
 
-  hoverImagLeave(imageData: ImageData) {
+  hoverImagLeave(imageData: ImageDataObj) {
     imageData.isHovered = false;
   }
 
@@ -155,7 +163,7 @@ export class ResizeImageComponent implements OnInit {
     }
   }
 
-  calcImageDimensions(image: ImageData, resizeDimension?: string) {
+  calcImageDimensions(image: ImageDataObj, resizeDimension?: string) {
     if (this.resizeByValue === "percentage") {
       image.resizeWidth = Math.floor((this.resizeWidth * image.width) / 100);
       image.resizeHeight = Math.floor((this.resizeHeight * image.height) / 100);
@@ -179,24 +187,30 @@ export class ResizeImageComponent implements OnInit {
     }
   }
 
-  goBackToResizeView(){
+  goBackToResizeView() {
     this.imagesResized = false;
   }
 
-  downloadImages(){
+  downloadImages() {
     let zip: JSZip = new JSZip();
+    const isSingleImage: boolean = this.imageFilesData.length === 1;
     for (const image of this.imageFilesData) {
       let resize_canvas = document.createElement('canvas');
       resize_canvas.width = image.resizeWidth;
       resize_canvas.height = image.resizeHeight;
       resize_canvas.getContext('2d').drawImage(image.file, 0, 0, image.resizeWidth, image.resizeHeight);
-      var resizeUrl = resize_canvas.toDataURL(image.type)
-      zip.file(image.name, resizeUrl.split('base64,')[1], { base64: true })
-      //$(image_target).attr('src', resize_canvas.toDataURL("image/png"));
+      let resizeUrl = resize_canvas.toDataURL(image.type)
+      if (!isSingleImage) {
+        zip.file(image.name, resizeUrl.split('base64,')[1], { base64: true })
+      } else {
+        FileSaver.saveAs(resizeUrl, image.name);
+      }
     }
-    zip.generateAsync({ type: "blob" }).then(function (content) {
-      FileSaver.saveAs(content, "download.zip");
-    });
+    if(!isSingleImage){
+      zip.generateAsync({ type: "blob" }).then(function (content) {
+        FileSaver.saveAs(content, "download.zip");
+      });
+    }
   }
 
   resizeImages() {

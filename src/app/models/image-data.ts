@@ -1,13 +1,13 @@
-export interface ImageData {
+export interface ImageDataObj {
   file?: CanvasImageSource;
-  id: number;
+  id?: number;
   url: string | ArrayBuffer;
   width: number;
   height: number;
   name: string;
-  aspectRatio: number;
+  aspectRatio?: number;
   isHovered?: boolean;
-  resizeWidth: number;
-  resizeHeight: number;
+  resizeWidth?: number;
+  resizeHeight?: number;
   type: string;
 }
