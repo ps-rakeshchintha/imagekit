@@ -1,5 +1,5 @@
 export interface ImageData {
-  file?: File;
+  file?: CanvasImageSource;
   id: number;
   url: string | ArrayBuffer;
   width: number;

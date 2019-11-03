@@ -49,6 +49,7 @@ export class ResizeImageComponent implements OnInit {
         image.onload = function () {
           //console.log("The image width is " + this.width + " and image height is " + this.height);
           that.imageId++;
+          const imageId = that.imageId;
           that.imageFilesData.push({
             id: that.imageId,
             name: file.name,
@@ -57,9 +58,13 @@ export class ResizeImageComponent implements OnInit {
             width: this.width,
             resizeWidth: this.width,
             resizeHeight: this.height,
-            aspectRatio: this.width / this.height
+            aspectRatio: this.width / this.height,
+            file: image
           });
           that.imagesCount = that.imageFilesData.length;
+          if (that.imagesSelected) {
+            that.calcImageDimensions(that.imageFilesData.filter(img => img.id === imageId)[0], that.resizeWidth ? "width" : "height");
+          }
           if (that.imageFilesData.length === files.length && !that.imagesSelected) {
             that.imagesSelected = true;
           }
@@ -71,7 +76,11 @@ export class ResizeImageComponent implements OnInit {
   }
 
   removeImage(imageData: ImageData) {
-    this.imageFilesData = this.imageFilesData.filter(data => data.id !== imageData.id)
+    this.imageFilesData = this.imageFilesData.filter(data => data.id !== imageData.id);
+    this.imagesCount--;
+    if (this.imagesCount === 0) {
+      this.imagesSelected = false;
+    }
   }
 
   hoverImagEnter(imageData: ImageData) {
@@ -86,12 +95,18 @@ export class ResizeImageComponent implements OnInit {
     if (this.resizeByValue === "percentage") {
       this.resizeWidth = 100;
       this.resizeHeight = 100;
-    } else if (this.imagesCount === 1 && this.resizeByValue === "pixels") {
-      this.resizeWidth = this.imageFilesData[0].width;
-      this.resizeHeight = this.imageFilesData[0].height;
-      this.globalAspectRatio = this.resizeWidth / this.resizeHeight;
+    } else if (this.resizeByValue === "pixels") {
+      if (this.imagesCount === 1) {
+        this.resizeWidth = this.imageFilesData[0].width;
+        this.resizeHeight = this.imageFilesData[0].height;
+        this.globalAspectRatio = this.resizeWidth / this.resizeHeight;
+      } else {
+        this.resizeWidth = null;
+        this.resizeHeight = null;
+        this.globalAspectRatio = null;
+      }
     }
-    this.calculateResizeDimensions();
+    this.calcAllImageDimensions();
   }
 
   resizeWidthChanged() {
@@ -101,10 +116,12 @@ export class ResizeImageComponent implements OnInit {
       } else if (this.resizeByValue === "pixels") {
         if (this.imagesCount === 1) {
           this.resizeHeight = Math.floor(this.resizeWidth / this.globalAspectRatio);
+        } else {
+          this.resizeHeight = null;
         }
       }
     }
-    this.calculateResizeDimensions();
+    this.calcAllImageDimensions("width");
   }
 
   resizeHeightChanged() {
@@ -114,21 +131,55 @@ export class ResizeImageComponent implements OnInit {
       } else if (this.resizeByValue === "pixels") {
         if (this.imagesCount === 1) {
           this.resizeWidth = Math.floor(this.globalAspectRatio * this.resizeHeight);
+        } else {
+          this.resizeWidth = null;
         }
       }
     }
-    this.calculateResizeDimensions();
+    this.calcAllImageDimensions("height");
   }
 
-  calculateResizeDimensions() {
+  resetMaintainSize(){
+    this.calcAllImageDimensions(this.resizeWidth ? "width" : "height");
+  }
+
+  calcAllImageDimensions(resizeDimension?: string) {
     for (const image of this.imageFilesData) {
-      if (this.resizeByValue === "percentage") {
-        image.resizeWidth = Math.floor((this.resizeWidth * image.width) / 100);
-        image.resizeHeight = Math.floor((this.resizeHeight * image.height) / 100);
-      } else if (this.resizeByValue === "pixels") {
-        image.resizeWidth = this.resizeWidth;
-        image.resizeHeight = this.resizeHeight;
+      this.calcImageDimensions(image, resizeDimension)
+    }
+  }
+
+  calcImageDimensions(image: ImageData, resizeDimension?: string) {
+    if (this.resizeByValue === "percentage") {
+      image.resizeWidth = Math.floor((this.resizeWidth * image.width) / 100);
+      image.resizeHeight = Math.floor((this.resizeHeight * image.height) / 100);
+    } else if (this.resizeByValue === "pixels") {
+      if (this.maintainAspectRatio && resizeDimension) {
+        if (resizeDimension === "width") {
+          image.resizeWidth = this.resizeWidth || image.width;
+          image.resizeHeight = Math.floor(image.resizeWidth / image.aspectRatio);
+        } else if (resizeDimension === "height") {
+          image.resizeHeight = this.resizeHeight || image.height;
+          image.resizeWidth = Math.floor(image.resizeHeight * image.aspectRatio);
+        }
+      } else {
+        image.resizeWidth = this.resizeWidth || image.width;
+        image.resizeHeight = this.resizeHeight || image.height;
       }
+    }
+    if (this.maintainMaxSize && (image.resizeHeight > image.height || image.resizeWidth > image.width)) {
+      image.resizeWidth = image.width;
+      image.resizeHeight = image.height;
+    }
+  }
+
+  resizeImages() {
+    for (const image of this.imageFilesData) {
+      let resize_canvas = document.createElement('canvas');
+      resize_canvas.width = image.resizeWidth;
+      resize_canvas.height = image.resizeHeight;
+      resize_canvas.getContext('2d').drawImage(image.file, 0, 0, image.resizeWidth, image.resizeHeight);
+      //$(image_target).attr('src', resize_canvas.toDataURL("image/png"));
     }
   }
 

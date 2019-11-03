@@ -12,13 +12,20 @@
     & > * {
       width: 100%;
     }
-    #resize-by-label{
+    #resize-by-label {
       margin-right: 10px;
     }
     .resize-radio-group {
       .resize-radio-button {
         margin: 5px;
       }
+    }
+    .mat-divider {
+      margin-top: 20px;
+    }
+    .resize-button-wrapper {
+      text-align: center;
+      margin-top: 20px;
     }
   }
   .images-container {

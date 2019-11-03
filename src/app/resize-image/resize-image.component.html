@@ -2,7 +2,8 @@
   <h1 class="mat-display-3">Resize Images</h1>
   <h2 class="mat-headline">Resize <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
   <div>
-    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Select Images</button>
+    <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
+    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*" id="resize-image-1">
   </div>
   <span class="mat-caption">or drag the images here</span>
 </div>
@@ -12,7 +13,8 @@
     <h3 class=".mat-h3">Resize Options</h3>
     <div>
       <label id="resize-by-label">By:</label>
-      <mat-radio-group aria-labelledby="resize-by-label" [(ngModel)]="resizeByValue" (change)="resizeTypeChanged()" class="resize-radio-group">
+      <mat-radio-group aria-labelledby="resize-by-label" [(ngModel)]="resizeByValue" (change)="resizeTypeChanged()"
+        class="resize-radio-group">
         <mat-radio-button value="percentage" class="resize-radio-button">
           Percentage
         </mat-radio-button>
@@ -23,17 +25,23 @@
     </div>
 
     <mat-form-field>
-      <input type="number" min="1" max="100" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput placeholder="Width">
+      <input type="number" min="1" max="100" [(ngModel)]="resizeWidth" (keyup)="resizeWidthChanged()" matInput
+        placeholder="Width">
     </mat-form-field>
 
     <mat-form-field>
-      <input type="number" min="1" max="100" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput placeholder="Height">
+      <input type="number" min="1" max="100" [(ngModel)]="resizeHeight" (keyup)="resizeHeightChanged()" matInput
+        placeholder="Height">
     </mat-form-field>
     <div>
-        <mat-slide-toggle (change)="restResize()" [(ngModel)]="maintainAspectRatio">Maintain Aspect Ratio</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="maintainAspectRatio">Maintain Aspect Ratio</mat-slide-toggle>
     </div>
-    <div style="display: none;">
-        <mat-slide-toggle (change)="restResize()" [(ngModel)]="maintainMaxSize">Do not enlarge if smaller</mat-slide-toggle>
+    <div>
+      <mat-slide-toggle (change)="resetMaintainSize()" [(ngModel)]="maintainMaxSize">Do not enlarge if smaller</mat-slide-toggle>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="resize-button-wrapper">
+        <button [disabled]="!resizeWidth && !resizeHeight" type="button" mat-raised-button color="primary" (click)="resizeImages()">Resize Images</button>
     </div>
   </div>
   <div class="images-container">
@@ -54,18 +62,19 @@
           <mat-chip-list aria-label="Fish selection">
             <mat-chip matTooltip="Original dimensions">{{imageData.width}} X {{imageData.height}} PX</mat-chip>
             <mat-icon class="arrow-icon">arrow_forward_ios</mat-icon>
-            <mat-chip matTooltip="Result dimensions" color="primary" selected>{{imageData.resizeWidth}} X
-              {{imageData.resizeHeight}}
-              PX</mat-chip>
+            <mat-chip matTooltip="Result dimensions" color="primary" selected>
+              {{imageData.resizeWidth || imageData.width}} X
+              {{imageData.resizeHeight || imageData.height}}
+              PX
+            </mat-chip>
           </mat-chip-list>
         </div>
       </mat-card-content>
     </mat-card>
-    <button matTooltip="Add more images" class="add-images-button fab-button" (click)="fileInput.click()" mat-fab
+    <button matTooltip="Add more images" class="add-images-button fab-button" (click)="fileInput2.click()" mat-fab
       aria-label="Add More Images">
       <mat-icon>add</mat-icon>
     </button>
+    <input hidden (change)="onFilesSelected($event)" #fileInput2 multiple type="file" accept="image/*" id="resize-image-2">
   </div>
 </div>
-
-<input hidden (change)="onFilesSelected($event)" #fileInput multiple type="file" accept="image/*" id="resize-image">

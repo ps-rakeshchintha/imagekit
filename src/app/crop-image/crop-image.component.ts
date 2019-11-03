@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, Inject } from '@angular/core';
 import Cropper from 'cropperjs';
 import { FileHandle } from '../directives/drag-drop.directive';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -144,7 +144,7 @@ export class CropImageComponent implements OnInit {
   downloadImage(){
     let link = document.createElement("a");
     link.href = this.croppedImageUrl;
-    link.download = "modified_" + this.imageFileData.name;
+    link.download = this.imageFileData.name;
     document.body.append(link);
     link.click();
     link.remove();
