@@ -8,7 +8,9 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'Easy Img Edit';
-  constructor(private router : Router){
+  public router: Router;
+  constructor(router : Router){
+    this.router = router;
     this.router.url
   }
 }
