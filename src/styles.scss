@@ -31,7 +31,11 @@ body {
     letter-spacing: -0.00833em;
   }
 }
-
+.fill-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
 .mat-chip-list .mat-chip-list-wrapper {
   justify-content: center;
   .mat-standard-chip {
@@ -55,9 +59,20 @@ body {
 .edit-button {
   min-width: 0px !important;
   padding: 0 5px !important;
-  .mat-icon{
+  .mat-icon {
     font-size: 20px;
     height: 20px;
     width: 20px;
+  }
+}
+
+a.not-button {
+  color: #0b1033;
+  text-decoration: none;
+  &:hover {
+    color: #22319c;
+  }
+  &:focus {
+    color: #7854f7;
   }
 }

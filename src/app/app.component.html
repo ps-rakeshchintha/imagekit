@@ -1,10 +1,12 @@
 <mat-toolbar class="mat-toolbar" color="primary">
-  <span routerLink="">Image Toolkit</span>
+  <a mat-button routerLink="">{{title}}</a>
+  <a mat-button routerLink="/crop-image">Crop Image</a>
+  <a mat-button routerLink="/resize-image">Resize Image</a>
 
   <!-- This fills the remaining space of the current row -->
   <span class="fill-space"></span>
 
 </mat-toolbar>
-<div class="app-content">
+<div class="app-content" [ngClass]="{'landing': router.url === '/'}">
   <router-outlet></router-outlet>
 </div>

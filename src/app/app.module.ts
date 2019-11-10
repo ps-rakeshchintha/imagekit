@@ -27,6 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MatMenuModule } from '@angular/material/menu';
     PageNotFoundComponent,
     LandingComponent,
     ResizeImageComponent,
-    DragDropDirective
+    DragDropDirective,
+    PrivacyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

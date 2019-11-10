@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
+  statsCounter = {
+    resized: 24560,
+    cropped: 12346
+  }
   constructor() { }
 
   ngOnInit() {

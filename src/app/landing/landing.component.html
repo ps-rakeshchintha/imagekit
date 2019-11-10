@@ -1,7 +1,100 @@
-<div class="app-page">
-  <button mat-raised-button color="primary" routerLink="/crop-image">Crop Image</button>
-  <br />
-  <br />
-  <br />
-  <button mat-raised-button color="primary" routerLink="/resize-image">Resize Image</button>
+<div class="landing-page">
+  <div class="banner">
+    <div class="banner-content">
+      <h1>Free Image Editing Tools</h1>
+      <h3>Edit your images for free quickly with simple tools without having to worry about privacy concerns.</h3>
+      <a mat-raised-button color="primary">Browse Tools</a>
+    </div>
+  </div>
+  <div class="tools-wrapper">
+    <h2 class="tools-heading">Tools you're gonna love!</h2>
+    <div class="tools">
+      <mat-card class="tool" routerLink="/crop-image">
+        <mat-card-header>
+          <mat-card-title>Crop Image</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Crop JPG, PNG, or GIFs with ease; Choose pixels to define your rectangle or use our visual editor.
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="tool" routerLink="/resize-image">
+        <mat-card-header>
+          <mat-card-title>Resize Image</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Define your dimensions, by percent or pixel, and resize your JPG, PNG, and GIF images.
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-content">
+      <div class="column">
+        <ul>
+          <li>
+            <a class="not-button" routerLink="">Easy Img Edit</a>
+          </li>
+          <li class="site-desc">
+            Every tool you could want to edit images in bulk
+            Your online photo editor is here and forever free!
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        <ul>
+          <li>
+            <a class="not-button" routerLink="crop-image">Crop Image</a>
+          </li>
+          <li>
+            <a class="not-button" routerLink="resize-image">Resize Image</a>
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        <ul>
+          <li>
+            <a class="not-button" routerLink="crop-image">About Us</a>
+          </li>
+          <li>
+            <a class="not-button" routerLink="crop-image">Contact Us</a>
+          </li>
+          <li>
+            <a class="not-button" routerLink="crop-image">FAQ</a>
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        Social Links
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="copyright">
+        <small>© 2019, <a routerLink="" title="">Easy Img Edit</a></small>
+      </div>
+      <span class="fill-space"></span>
+      <div class="privacy-links-wrapper">
+        <ul>
+          <li>
+            <a href="http://help.heycarson.com/en/" aria-describedby="a11y-external-message">
+              Help
+            </a>
+          </li>
+          <li>
+            <a href="/pages/terms-and-conditions">
+              Terms &amp; Conditions
+            </a>
+          </li>
+          <li class="privacy-link">
+            <a href="https://www.iubenda.com/privacy-policy/11099818" class="iubenda-embed" title="Privacy Policy ">
+              Privacy
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
