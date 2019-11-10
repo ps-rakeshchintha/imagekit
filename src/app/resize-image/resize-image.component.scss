@@ -130,11 +130,19 @@
       }
     }
   }
+  &.resize-completed{
+    height: min-content;
+    .mat-title{
+      text-align: center;
+    }
+    .images-container{
+      width: 100%;
+    }
+  }
 }
 .resized-image-wrapper {
   text-align: center;
   max-width: 600px;
-  margin: 0 auto;
-  height: 50%;
+  margin: 30px auto;
   position: relative;
 }

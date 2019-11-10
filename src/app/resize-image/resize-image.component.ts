@@ -30,7 +30,7 @@ export class ResizeImageComponent implements OnInit {
 
   constructor(private redirectService: RedirectService, private seoService: SeoService) {
     this.seoService.addMetaTags("Resize JPEG, PNG, SVG for free", "Resize single or multiple images of JPEG, PNG, SVG and any other image format at once easily and quickly.");
-   }
+  }
 
   ngOnInit() {
     const croppedImage: ImageDataObj = this.redirectService.getCropperImageData()
@@ -199,15 +199,11 @@ export class ResizeImageComponent implements OnInit {
     let zip: JSZip = new JSZip();
     const isSingleImage: boolean = this.imageFilesData.length === 1;
     for (const image of this.imageFilesData) {
-      let resize_canvas = document.createElement('canvas');
-      resize_canvas.width = image.resizeWidth;
-      resize_canvas.height = image.resizeHeight;
-      resize_canvas.getContext('2d').drawImage(image.file, 0, 0, image.resizeWidth, image.resizeHeight);
-      let resizeUrl = resize_canvas.toDataURL(image.type)
+      const imageUrl = <string>image.resizeUrl;
       if (!isSingleImage) {
-        zip.file(image.name, resizeUrl.split('base64,')[1], { base64: true })
+        zip.file(image.name, imageUrl.split('base64,')[1], { base64: true })
       } else {
-        FileSaver.saveAs(resizeUrl, image.name);
+        FileSaver.saveAs(imageUrl, image.name);
       }
     }
     if (!isSingleImage) {
@@ -218,6 +214,13 @@ export class ResizeImageComponent implements OnInit {
   }
 
   resizeImages() {
+    for (const image of this.imageFilesData) {
+      let resize_canvas = document.createElement('canvas');
+      resize_canvas.width = image.resizeWidth;
+      resize_canvas.height = image.resizeHeight;
+      resize_canvas.getContext('2d').drawImage(image.file, 0, 0, image.resizeWidth, image.resizeHeight);
+      image.resizeUrl = resize_canvas.toDataURL(image.type)
+    }
     this.imagesResized = true;
   }
 

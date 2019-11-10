@@ -9,5 +9,6 @@ export interface ImageDataObj {
   isHovered?: boolean;
   resizeWidth?: number;
   resizeHeight?: number;
+  resizeUrl?: string | ArrayBuffer;
   type: string;
 }
