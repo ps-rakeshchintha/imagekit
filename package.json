@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/server",
-    "deploy": "ng build --prod && npm run build:ssr && gcloud app deploy",
+    "deploy": "ng build --prod && npm run build:ssr && node purify && gcloud app deploy",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -57,6 +57,7 @@
     "karma-jasmine-html-reporter": "^1.4.0",
     "lite-server": "^2.5.4",
     "protractor": "~5.4.0",
+    "purify-css": "^1.2.5",
     "ts-loader": "^5.2.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
