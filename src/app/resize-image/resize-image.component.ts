@@ -57,36 +57,36 @@ export class ResizeImageComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (_event: any) => {
-        let image;
-        image = new Image();
+        let image = new Image();
         image.src = _event.target.result;
-        let that = this;
-        image.onload = function () {
+        image.onload = () => {
           //console.log("The image width is " + this.width + " and image height is " + this.height);
-          that.imageId++;
-          const imageId = that.imageId;
-          const duplicateFileCount: number = that.imageFilesData.filter(img => img.name === file.name).length;
-          const duplicateFilePrefix: string = duplicateFileCount > 1 ? `(${duplicateFileCount})` : '';
-          that.imageFilesData.push({
-            id: that.imageId,
-            name: file.name,
+          this.imageId++;
+          const imageId = this.imageId;
+          const duplicateFileCount: number = this.imageFilesData.filter(img => img.name === file.name).length;
+          const duplicateFilePrefix: string = duplicateFileCount > 0 ? `(${duplicateFileCount})` : '';
+          const fileNameWithoutPrefix = file.name.split('.').slice(0, -1).join('.');
+          const fileName = `${fileNameWithoutPrefix}${duplicateFilePrefix}.${file.name.split('.').pop()}`;
+          this.imageFilesData.push({
+            id: this.imageId,
+            name: fileName,
             url: image.src,
-            height: this.height,
-            width: this.width,
-            resizeWidth: this.width,
-            resizeHeight: this.height,
-            aspectRatio: this.width / this.height,
+            height: image.height,
+            width: image.width,
+            resizeWidth: image.width,
+            resizeHeight: image.height,
+            aspectRatio: image.width / image.height,
             file: image,
             type: file.type
           });
-          that.imagesCount = that.imageFilesData.length;
-          if (that.imagesSelected) {
-            that.calcImageDimensions(that.imageFilesData.filter(img => img.id === imageId)[0], that.resizeWidth ? "width" : "height");
+          this.imagesCount = this.imageFilesData.length;
+          if (this.imagesSelected) {
+            this.calcImageDimensions(this.imageFilesData.filter(img => img.id === imageId)[0], this.resizeWidth ? "width" : "height");
           }
-          if (that.imageFilesData.length === files.length && !that.imagesSelected) {
-            that.imagesSelected = true;
+          if (this.imageFilesData.length === files.length && !this.imagesSelected) {
+            this.imagesSelected = true;
           }
-          //console.log(that.imageFilesData);
+          //console.log(this.imageFilesData);
 
         };
       }
