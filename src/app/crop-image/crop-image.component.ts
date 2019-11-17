@@ -158,7 +158,7 @@ export class CropImageComponent implements OnInit {
 
   goToResizePage() {
     const imageData: ImageDataObj = {
-      file: this.croppedCanvas,
+      canvasImageSource: this.croppedCanvas,
       width: this.croppedImageWidth,
       height: this.croppedImageHeight,
       resizeWidth: this.croppedImageWidth,

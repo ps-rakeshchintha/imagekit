@@ -1,0 +1,94 @@
+<div class="file-upload-wrapper" *ngIf="!imagesSelected && !imagesCompressed" appDragDrop (files)="filesDropped($event)">
+  <h1 class="mat-display-3">Compress JPGs</h1>
+  <h2 class="mat-headline">Compress <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
+  <div>
+    <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
+    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*"
+      id="compress-jpg-1">
+  </div>
+  <span class="mat-caption">or drag the images here</span>
+</div>
+
+<div class="image-compress-wrapper" *ngIf="imagesSelected && !imagesCompressed" appDragDrop (files)="filesDropped($event)">
+  <div class="options-container">
+    <h3 class=".mat-h3">Compress Options</h3>
+    <div class="crop-rotate-wrapper" cdkDragDisabled="true">
+      Quality:
+      <mat-slider #mySlider (change)="sliderOnChange(mySlider.value)" thumbLabel tickInterval="1" min="0" max="100" value="70">
+      </mat-slider>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="compress-button-wrapper">
+      <button type="button" mat-raised-button color="primary"
+        (click)="compressImagesDone()">Compress JPGs</button>
+    </div>
+  </div>
+  <div class="images-container">
+    <mat-card *ngFor="let imageData of imageFilesData" (mouseenter)="hoverImagEnter(imageData)"
+      (mouseleave)="hoverImagLeave(imageData)" [ngClass]="{'hovered': imageData.isHovered}">
+      <mat-card-content>
+        <div class="image-remove-container">
+          <button matTooltip="Remove image" *ngIf="imageData.isHovered" class="remove-button" mat-button color="accent"
+            aria-label="Remove Image" (click)="removeImage(imageData)">
+            <mat-icon>highlight_off</mat-icon>
+          </button>
+        </div>
+        <div class="image-container">
+          <img [src]="imageData.url">
+        </div>
+        <div class="image-container">
+          <img [src]="imageData.compressUrl">
+        </div>
+        <div class="image-data-container">
+          <div class="mat-h4">{{imageData.name}}</div>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip matTooltip="Original size">{{imageData.prettySize}}</mat-chip>
+            <mat-icon class="arrow-icon">arrow_forward_ios</mat-icon>
+            <mat-chip matTooltip="Result size" color="primary" selected>
+              {{imageData.compressPrettySize}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <button matTooltip="Add more images" class="add-images-button fab-button" (click)="fileInput2.click()" mat-fab
+      aria-label="Add More Images">
+      <mat-icon>add</mat-icon>
+    </button>
+    <input hidden (change)="onFilesSelected($event)" #fileInput2 multiple type="file" accept="image/*"
+      id="compress-jpg-2">
+  </div>
+</div>
+
+<div class="compressed-image-wrapper" *ngIf="imagesSelected && imagesCompressed">
+  <mat-card>
+    <mat-card-content>
+      <h2 class="mat-title">Your images are resized and ready for download</h2>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="goBackToCompressView()">Go Back</button>
+      <button mat-raised-button color="primary" (click)="downloadImages()">Download</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<div class="image-compress-wrapper compress-completed" *ngIf="imagesSelected && imagesCompressed">
+  <h2 class="mat-title">Preview Images</h2>
+  <div class="images-container">
+    <mat-card *ngFor="let imageData of imageFilesData" (mouseenter)="hoverImagEnter(imageData)"
+      (mouseleave)="hoverImagLeave(imageData)" [ngClass]="{'hovered': imageData.isHovered}">
+      <mat-card-content>
+        <div class="image-container">
+          <img [src]="imageData.compressUrl">
+        </div>
+        <div class="image-data-container">
+          <div class="mat-h4">{{imageData.name}}</div>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip matTooltip="Result size" color="primary" selected>
+              {{imageData.compressPrettySize}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

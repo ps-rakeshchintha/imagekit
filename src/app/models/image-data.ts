@@ -1,14 +1,22 @@
+import { SafeUrl } from '@angular/platform-browser';
+
 export interface ImageDataObj {
-  file?: CanvasImageSource;
+  canvasImageSource?: CanvasImageSource;
   id?: number;
-  url: string | ArrayBuffer;
-  width: number;
-  height: number;
-  name: string;
+  url?: string | ArrayBuffer | SafeUrl;
+  width?: number;
+  height?: number;
+  name?: string;
+  type?: string;
+  size?: number;
+  prettySize?: string;
+  file?: File;
   aspectRatio?: number;
   isHovered?: boolean;
   resizeWidth?: number;
   resizeHeight?: number;
-  resizeUrl?: string | ArrayBuffer;
-  type: string;
+  resizeUrl?: string | ArrayBuffer | SafeUrl;
+  compressUrl?: string | ArrayBuffer | SafeUrl;
+  compressSize?: number;
+  compressPrettySize?: string;
 }

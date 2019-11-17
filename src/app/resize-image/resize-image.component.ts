@@ -76,7 +76,7 @@ export class ResizeImageComponent implements OnInit {
             resizeWidth: image.width,
             resizeHeight: image.height,
             aspectRatio: image.width / image.height,
-            file: image,
+            canvasImageSource: image,
             type: file.type
           });
           this.imagesCount = this.imageFilesData.length;
@@ -218,7 +218,7 @@ export class ResizeImageComponent implements OnInit {
       let resize_canvas = document.createElement('canvas');
       resize_canvas.width = image.resizeWidth;
       resize_canvas.height = image.resizeHeight;
-      resize_canvas.getContext('2d').drawImage(image.file, 0, 0, image.resizeWidth, image.resizeHeight);
+      resize_canvas.getContext('2d').drawImage(image.canvasImageSource, 0, 0, image.resizeWidth, image.resizeHeight);
       image.resizeUrl = resize_canvas.toDataURL(image.type)
     }
     this.imagesResized = true;

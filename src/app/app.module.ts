@@ -8,6 +8,7 @@ import { CropImageComponent } from './crop-image/crop-image.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ResizeImageComponent } from './resize-image/resize-image.component';
 import { LandingComponent } from './landing/landing.component';
+import { CompressImageComponent } from './compress-image/compress-image.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -37,7 +38,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     LandingComponent,
     ResizeImageComponent,
     DragDropDirective,
-    PrivacyComponent
+    PrivacyComponent,
+    CompressImageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -9,7 +9,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export interface FileHandle {
   file: File,
-  url: SafeUrl
+  url?: SafeUrl
 }
 
 @Directive({
@@ -42,8 +42,8 @@ export class DragDropDirective {
     let files: FileHandle[] = [];
     for (let i = 0; i < evt.dataTransfer.files.length; i++) {
       const file = evt.dataTransfer.files[i];
-      const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
-      files.push({ file, url });
+      //const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
+      files.push({ file });
     }
     if (files.length > 0) {
       this.files.emit(files);
