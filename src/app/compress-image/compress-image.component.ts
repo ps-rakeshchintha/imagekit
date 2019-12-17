@@ -26,7 +26,7 @@ export class CompressImageComponent implements OnInit {
   compressQualityValue: number = 0.7;
 
   constructor(private redirectService: RedirectService, private seoService: SeoService, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef) {
-    this.seoService.addMetaTags("Resize JPEG, PNG, SVG for free", "Resize single or multiple images of JPEG, PNG, SVG and any other image format at once easily and quickly.");
+    this.seoService.addMetaTags("Compress JPEG", "Compress any JPEGs by selecting the quality target as per required size.");
   }
 
   ngOnInit() {

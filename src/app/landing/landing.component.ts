@@ -13,7 +13,7 @@ export class LandingComponent implements OnInit {
     cropped: 12346
   }
   constructor(private seoService: SeoService) {
-    this.seoService.addMetaTags("Easy Img Edit", "Edit your images for free quickly with simple tools without having to worry about privacy concerns.");
+    this.seoService.addMetaTags("Free Image Editing Tools", "Edit your images for free quickly with simple tools without having to worry about privacy concerns.");
   }
 
   ngOnInit() {
