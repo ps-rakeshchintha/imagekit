@@ -41,12 +41,12 @@ export class CompressImageComponent implements OnInit {
 
   onFilesSelected(fileInput: any) {
     var files = fileInput.target.files;
-    files = [...files].filter(s => s.type.includes("image"))
+    files = [...files].filter(s => s.type.includes("image"));
     this.readFiles(files);
   }
 
   filesDropped(files: FileHandle[]): void {
-    this.readFiles(files.map(data => data.file).filter(s => s.type.includes("image")));
+    this.readFiles(files.map(data => data.file).filter(s => s.type.includes("image/jpeg")));
   }
   readFiles(files: File[]) {
     for (const file of files) {

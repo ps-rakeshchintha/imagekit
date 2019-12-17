@@ -44,6 +44,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     float: left;
+    .image-data-container .mat-h4{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
     .mat-card {
       width: 46%;
       height: 350px;
@@ -96,7 +102,7 @@
     width: initial;
     .options-container {
       width: calc(100% - 30px);
-      height: 300px;
+      height: 200px;
       float: none;
       .compress-desktop-input {
         display: none;
@@ -132,6 +138,7 @@
     .images-container {
       .mat-card {
         margin: 10px 0;
+        width: 100%;
       }
     }
   }

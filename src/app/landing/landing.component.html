@@ -29,6 +29,16 @@
           </p>
         </mat-card-content>
       </mat-card>
+      <mat-card class="tool" routerLink="/compress-jpg">
+        <mat-card-header>
+          <mat-card-title>Compress JPEG</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Compress JPEG images by selecting the quality target as per required size.
+          </p>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
   <div class="footer">
@@ -52,17 +62,20 @@
           <li>
             <a class="not-button" routerLink="resize-image">Resize Image</a>
           </li>
+          <li>
+            <a class="not-button" routerLink="compress-jpg">Compress Image</a>
+          </li>
         </ul>
       </div>
       <div class="column">
         <ul>
-          <li>
+          <li class="hide">
             <a class="not-button" routerLink="crop-image">About Us</a>
           </li>
           <li>
-            <a class="not-button" routerLink="crop-image">Contact Us</a>
+            <a class="not-button" href="mailto:easyimgedit@gmail.com?Subject=Easy%20Img%20Edit%20Support">Contact Us</a>
           </li>
-          <li>
+          <li class="hide">
             <a class="not-button" routerLink="crop-image">FAQ</a>
           </li>
         </ul>
@@ -73,17 +86,17 @@
     </div>
     <div class="footer-bottom">
       <div class="copyright">
-        <small>© 2019, <a routerLink="" title="">Easy Img Edit</a></small>
+        <small>© 2019, Easy Img Edit</small>
       </div>
       <span class="fill-space"></span>
       <div class="privacy-links-wrapper">
         <ul>
-          <li>
+          <li class="hide">
             <a href="http://help.heycarson.com/en/" aria-describedby="a11y-external-message">
               Help
             </a>
           </li>
-          <li>
+          <li class="hide">
             <a href="/pages/terms-and-conditions">
               Terms &amp; Conditions
             </a>

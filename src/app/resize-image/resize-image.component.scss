@@ -41,6 +41,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     float: left;
+    .image-data-container .mat-h4{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
     .mat-card {
       width: 290px;
       height: 450px;
@@ -127,6 +133,7 @@
     .images-container {
       .mat-card{
         margin: 10px 0;
+        width: 100%;
       }
     }
   }

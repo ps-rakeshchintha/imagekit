@@ -1,13 +1,15 @@
 <mat-toolbar class="mat-toolbar" color="primary">
   <a mat-button routerLink="">{{title}}</a>
-  <a mat-button routerLink="/crop-image">Crop Image</a>
-  <a mat-button routerLink="/resize-image">Resize Image</a>
-  <a mat-button routerLink="/compress-jpg">Compress JPG</a>
+  <div class="nav-links" [ngClass]="{'open': showMobileMenu && showMobileMenuIcon}">
+    <a mat-button routerLink="/crop-image">Crop Image</a>
+    <a mat-button routerLink="/resize-image">Resize Image</a>
+    <a mat-button routerLink="/compress-jpg">Compress JPEG</a>
+  </div>
 
   <!-- This fills the remaining space of the current row -->
   <span class="fill-space"></span>
-
+  <mat-icon *ngIf="showMobileMenuIcon" class="mobile-menu" (click)="menuClick()" aria-hidden="false" aria-label="Menu Icon">menu</mat-icon>
 </mat-toolbar>
-<div class="app-content" [ngClass]="{'landing': router.url === '/'}">
+<div class="app-content" [ngClass]="{'landing': currentRoute === '/'}">
   <router-outlet></router-outlet>
 </div>

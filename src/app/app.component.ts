@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,26 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'Easy Img Edit';
-  public router: Router;
-  constructor(router : Router){
-    this.router = router;
-    this.router.url
+  showMobileMenu: boolean;
+  showMobileMenuIcon: boolean;
+  currentRoute: string;
+
+  constructor(breakpointObserver: BreakpointObserver, router : Router) {
+    breakpointObserver.observe([
+      Breakpoints.HandsetLandscape,
+      Breakpoints.HandsetPortrait
+    ]).subscribe(result => {
+      this.showMobileMenuIcon = result.matches ? true : false;
+    });
+    router.events.subscribe(val => {
+      if(this.currentRoute !== router.url){
+        this.showMobileMenu = false;
+        this.currentRoute = router.url;
+      }
+    });
+  }
+
+  menuClick(){
+    this.showMobileMenu = !this.showMobileMenu;
   }
 }

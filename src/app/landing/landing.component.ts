@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-landing',
@@ -11,7 +12,9 @@ export class LandingComponent implements OnInit {
     resized: 24560,
     cropped: 12346
   }
-  constructor() { }
+  constructor(private seoService: SeoService) {
+    this.seoService.addMetaTags("Easy Img Edit", "Edit your images for free quickly with simple tools without having to worry about privacy concerns.");
+  }
 
   ngOnInit() {
   }

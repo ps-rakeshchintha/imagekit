@@ -72,7 +72,7 @@
           <img [src]="imageData.url">
         </div>
         <div class="image-data-container">
-          <div class="mat-h4">{{imageData.name}}</div>
+          <div class="mat-h4" [title]="imageData.name">{{imageData.name}}</div>
           <mat-chip-list aria-label="Fish selection">
             <mat-chip matTooltip="Original dimensions">{{imageData.width}} X {{imageData.height}} PX</mat-chip>
             <mat-icon class="arrow-icon">arrow_forward_ios</mat-icon>

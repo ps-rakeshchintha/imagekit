@@ -1,9 +1,9 @@
 <div class="file-upload-wrapper" *ngIf="!imagesSelected && !imagesCompressed" appDragDrop (files)="filesDropped($event)">
-  <h1 class="mat-display-3">Compress JPGs</h1>
-  <h2 class="mat-headline">Compress <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
+  <h1 class="mat-display-3">Compress JPEG</h1>
+  <h2 class="mat-headline">Compress any <b>JPEG's</b> by selecting the quality target as per required size.</h2>
   <div>
     <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
-    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*"
+    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/jpeg, image/jpg"
       id="compress-jpg-1">
   </div>
   <span class="mat-caption">or drag the images here</span>
@@ -40,7 +40,7 @@
           <img [src]="imageData.compressUrl">
         </div>
         <div class="image-data-container">
-          <div class="mat-h4">{{imageData.name}}</div>
+          <div class="mat-h4" [title]="imageData.name">{{imageData.name}}</div>
           <mat-chip-list aria-label="Fish selection">
             <mat-chip matTooltip="Original size">{{imageData.prettySize}}</mat-chip>
             <mat-icon class="arrow-icon">arrow_forward_ios</mat-icon>
@@ -55,7 +55,7 @@
       aria-label="Add More Images">
       <mat-icon>add</mat-icon>
     </button>
-    <input hidden (change)="onFilesSelected($event)" #fileInput2 multiple type="file" accept="image/*"
+    <input hidden (change)="onFilesSelected($event)" #fileInput2 multiple type="file" accept="image/jpeg, image/jpg"
       id="compress-jpg-2">
   </div>
 </div>
