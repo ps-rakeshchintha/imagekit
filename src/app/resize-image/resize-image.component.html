@@ -9,7 +9,7 @@
       </svg>
       <div class="desktop-text">Click Browse or Drag and Drop your files here</div>
       <div class="mobile-text">Click Browse to select your files</div>
-      <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
+      <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Browse</button>
       <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*"
         id="resize-image-1">
     </div>
