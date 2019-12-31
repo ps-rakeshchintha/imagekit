@@ -29,6 +29,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { PrivacyComponent } from './privacy/privacy.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     MatChipsModule,
     MatRadioModule,
     MatSlideToggleModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -18,6 +18,9 @@ export class ResizeImageComponent implements OnInit {
   imageFilesData: ImageDataObj[] = [];
   imagesSelected: boolean = false;
   imagesResized: boolean = false;
+  imagesResizing: boolean = false;
+  fileUploading: boolean = false;
+  downloading: boolean = false;
   imageId: number = 0;
   imagesCount: number = 0;
 
@@ -43,13 +46,19 @@ export class ResizeImageComponent implements OnInit {
   }
 
   onFilesSelected(fileInput: any) {
-    var files = fileInput.target.files;
-    files = [...files].filter(s => s.type.includes("image"))
-    this.readFiles(files);
+    this.fileUploading = true;
+    setTimeout(() => {
+      var files = fileInput.target.files;
+      files = [...files].filter(s => s.type.includes("image"))
+      this.readFiles(files);
+    }, 200);
   }
 
   filesDropped(files: FileHandle[]): void {
-    this.readFiles(files.map(data => data.file).filter(s => s.type.includes("image")));
+    this.fileUploading = true;
+    setTimeout(() => {
+      this.readFiles(files.map(data => data.file).filter(s => s.type.includes("image")));
+    }, 200);
   }
 
   readFiles(files: File[]) {
@@ -85,9 +94,8 @@ export class ResizeImageComponent implements OnInit {
           }
           if (this.imageFilesData.length === files.length && !this.imagesSelected) {
             this.imagesSelected = true;
+            this.fileUploading = false;
           }
-          //console.log(this.imageFilesData);
-
         };
       }
     }
@@ -196,6 +204,7 @@ export class ResizeImageComponent implements OnInit {
   }
 
   downloadImages() {
+    this.downloading = true;
     let zip: JSZip = new JSZip();
     const isSingleImage: boolean = this.imageFilesData.length === 1;
     for (const image of this.imageFilesData) {
@@ -204,24 +213,30 @@ export class ResizeImageComponent implements OnInit {
         zip.file(image.name, imageUrl.split('base64,')[1], { base64: true })
       } else {
         FileSaver.saveAs(imageUrl, image.name);
+        this.downloading = false;
       }
     }
     if (!isSingleImage) {
-      zip.generateAsync({ type: "blob" }).then(function (content) {
+      zip.generateAsync({ type: "blob" }).then((content) => {
         FileSaver.saveAs(content, "download.zip");
+        this.downloading = false;
       });
     }
   }
 
   resizeImages() {
-    for (const image of this.imageFilesData) {
-      let resize_canvas = document.createElement('canvas');
-      resize_canvas.width = image.resizeWidth;
-      resize_canvas.height = image.resizeHeight;
-      resize_canvas.getContext('2d').drawImage(image.canvasImageSource, 0, 0, image.resizeWidth, image.resizeHeight);
-      image.resizeUrl = resize_canvas.toDataURL(image.type)
-    }
     this.imagesResized = true;
+    this.imagesResizing = true;
+    setTimeout(() => {
+      for (const image of this.imageFilesData) {
+        let resize_canvas = document.createElement('canvas');
+        resize_canvas.width = image.resizeWidth;
+        resize_canvas.height = image.resizeHeight;
+        resize_canvas.getContext('2d').drawImage(image.canvasImageSource, 0, 0, image.resizeWidth, image.resizeHeight);
+        image.resizeUrl = resize_canvas.toDataURL(image.type)
+      }
+      this.imagesResizing = false;
+    }, 200);
   }
 
 }

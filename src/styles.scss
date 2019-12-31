@@ -7,7 +7,6 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #fafafa;
 }
 
 .file-upload-wrapper {
@@ -29,6 +28,53 @@ body {
     font-weight: 300;
     line-height: 1;
     letter-spacing: -0.00833em;
+  }
+  .file-upload-container {
+    margin-top: 10px;
+    > div {
+      > div {
+        margin-top: 20px;
+      }
+      button {
+        margin-top: 20px;
+      }
+    }
+    @media (min-width: 768px) {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1px dashed #6f7b91;
+      height: 350px;
+      text-align: center;
+      overflow: hidden;
+      background: #fafafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .mobile-text {
+        display: none;
+      }
+    }
+    @media only screen and (max-width: 768px) {
+      /* For mobile phones: */
+      svg {
+        display: none;
+      }
+      .desktop-text {
+        display: none;
+      }
+    }
+  }
+  .loading-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    height: 350px;
+    text-align: center;
+    overflow: hidden;
+    mat-spinner {
+      margin: 0 auto;
+    }
   }
 }
 .fill-space {
@@ -79,4 +125,32 @@ a.not-button {
 
 .hide {
   display: none !important;
+}
+
+.loading-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner .8s linear infinite;
 }

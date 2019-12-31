@@ -36,6 +36,7 @@ export class CropImageComponent implements OnInit {
   isFlippedVertical: boolean = false;
   isFlippedHorizontal: boolean = false;
   sliderValue: number = 0;
+  fileUploading: boolean = false;
 
   @ViewChild('imgTarget', { static: false }) imgTarget: ElementRef;
 
@@ -51,18 +52,24 @@ export class CropImageComponent implements OnInit {
   }
 
   onFileSelected(fileInput: any) {
-    this.imageFileData = <File>fileInput.target.files[0];
-    this.readFile();
+    this.fileUploading = true;
+    setTimeout(() => {
+      this.imageFileData = <File>fileInput.target.files[0];
+      this.readFile();
+    }, 200);
   }
 
   filesDropped(files: FileHandle[]): void {
+    this.fileUploading = true;
     if (files.length > 1) {
       this._snackBar.open("You have selected more than one file. Cropping an image only support one file at a time for now.", "Dismiss", {
         duration: 3000,
       });
     }
-    this.imageFileData = <File>files[0].file;
-    this.readFile();
+    setTimeout(() => {
+      this.imageFileData = <File>files[0].file;
+      this.readFile();
+    }, 200);
   }
 
   readFile() {
@@ -77,6 +84,7 @@ export class CropImageComponent implements OnInit {
     reader.onload = (_event) => {
       this.imageUrl = reader.result;
       this.imageSelected = true;
+      this.fileUploading = false;
       this.changeDetectorRef.detectChanges();
       this.initializeCropper();
     }
@@ -135,15 +143,17 @@ export class CropImageComponent implements OnInit {
   }
 
   cropImage() {
-    this.croppedCanvas = this.cropper.getCroppedCanvas({
-      imageSmoothingEnabled: false,
-      imageSmoothingQuality: 'high'
-    });
-    const cropBoxData = this.cropper.getData();
-    this.croppedImageWidth = Math.floor(cropBoxData.width);
-    this.croppedImageHeight = Math.floor(cropBoxData.height);
-    this.croppedImageUrl = this.croppedCanvas.toDataURL(this.imageFileData.type);
     this.imageCropped = true;
+    setTimeout(() => {
+      this.croppedCanvas = this.cropper.getCroppedCanvas({
+        imageSmoothingEnabled: false,
+        imageSmoothingQuality: 'high'
+      });
+      const cropBoxData = this.cropper.getData();
+      this.croppedImageWidth = Math.floor(cropBoxData.width);
+      this.croppedImageHeight = Math.floor(cropBoxData.height);
+      this.croppedImageUrl = this.croppedCanvas.toDataURL(this.imageFileData.type);
+    }, 200);
   }
 
   goBackToCropView() {

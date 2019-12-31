@@ -18,26 +18,26 @@ export interface FileHandle {
 export class DragDropDirective {
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
 
-  @HostBinding("style.background") public background = "transparent";
+  @HostBinding("style.background") public background;
 
   constructor(private sanitizer: DomSanitizer) { }
 
   @HostListener("dragover", ["$event"]) public onDragOver(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = "#eee";
+    this.background = "#ffffff";
   }
 
   @HostListener("dragleave", ["$event"]) public onDragLeave(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = "transparent";
+    this.background = "#fafafb";
   }
 
   @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = 'transparent';
+    this.background = '#fafafb';
 
     let files: FileHandle[] = [];
     for (let i = 0; i < evt.dataTransfer.files.length; i++) {

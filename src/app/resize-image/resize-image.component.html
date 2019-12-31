@@ -1,12 +1,22 @@
-<div class="file-upload-wrapper" *ngIf="!imagesSelected && !imagesResized" appDragDrop (files)="filesDropped($event)">
+<div class="file-upload-wrapper" *ngIf="!imagesSelected && !imagesResized">
   <h1 class="mat-display-3">Resize Images</h1>
   <h2 class="mat-headline">Resize <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
-  <div>
-    <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
-    <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*"
-      id="resize-image-1">
+  <div *ngIf="!fileUploading" class="file-upload-container" appDragDrop (files)="filesDropped($event)">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="108" height="94" viewBox="0 0 108 94">
+        <path fill="#d4d7de" fill-rule="evenodd"
+          d="M105.25,64.536a2.736,2.736,0,0,0-2.749,2.723v10.4a10.957,10.957,0,0,1-11,10.891H16.5a10.957,10.957,0,0,1-11-10.891v-10.4a2.75,2.75,0,0,0-5.5,0v10.4A16.436,16.436,0,0,0,16.5,94H91.5A16.436,16.436,0,0,0,108,77.663v-10.4A2.736,2.736,0,0,0,105.25,64.536ZM88.558,75.264H19.441a2.723,2.723,0,1,0,0,5.446H88.558A2.723,2.723,0,1,0,88.558,75.264ZM81.827,36.958a2.768,2.768,0,0,0-3.882-.217l-21.2,18.752V2.723a2.749,2.749,0,0,0-5.5,0V55.493l-21.2-18.752a2.769,2.769,0,0,0-3.882.217,2.7,2.7,0,0,0,.219,3.844L49.42,61.176a6.919,6.919,0,0,0,9.158,0L81.607,40.8A2.7,2.7,0,0,0,81.827,36.958Z" />
+      </svg>
+      <div class="desktop-text">Click Browse or Drag and Drop your files here</div>
+      <div class="mobile-text">Click Browse to select your files</div>
+      <button type="button" mat-raised-button color="primary" (click)="fileInput1.click()">Select Images</button>
+      <input hidden (change)="onFilesSelected($event)" #fileInput1 multiple type="file" accept="image/*"
+        id="resize-image-1">
+    </div>
   </div>
-  <span class="mat-caption">or drag the images here</span>
+  <div class="loading-container" *ngIf="fileUploading">
+    <mat-spinner color="accent" diameter="60"></mat-spinner>
+  </div>
 </div>
 
 <div class="image-resize-wrapper" *ngIf="imagesSelected && !imagesResized" appDragDrop (files)="filesDropped($event)">
@@ -95,36 +105,51 @@
 </div>
 
 <div class="resized-image-wrapper" *ngIf="imagesSelected && imagesResized">
-  <mat-card>
-    <mat-card-content>
-      <h2 class="mat-title">Your images are resized and ready for download</h2>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="goBackToResizeView()">Go Back</button>
-      <button mat-raised-button color="primary" (click)="downloadImages()">Download</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
-<div class="image-resize-wrapper resize-completed" *ngIf="imagesSelected && imagesResized">
-  <h2 class="mat-title">Preview Images</h2>
-  <div class="images-container">
-    <mat-card *ngFor="let imageData of imageFilesData" (mouseenter)="hoverImagEnter(imageData)"
-      (mouseleave)="hoverImagLeave(imageData)" [ngClass]="{'hovered': imageData.isHovered}">
+  <div *ngIf="!imagesResizing">
+    <mat-card>
       <mat-card-content>
-        <div class="image-container">
-          <img [src]="imageData.resizeUrl">
-        </div>
-        <div class="image-data-container">
-          <div class="mat-h4">{{imageData.name}}</div>
-          <mat-chip-list aria-label="Fish selection">
-            <mat-chip matTooltip="Result dimensions" color="primary" selected>
-              {{imageData.resizeWidth || imageData.width}} X
-              {{imageData.resizeHeight || imageData.height}}
-              PX
-            </mat-chip>
-          </mat-chip-list>
-        </div>
+        <h2 class="mat-title">Your images are resized and ready for download</h2>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="goBackToResizeView()">Go Back</button>
+        <button mat-raised-button color="primary" [class.spinner]="downloading" [disabled]="downloading"
+          (click)="downloadImages()">Download</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div *ngIf="imagesResizing">
+    <mat-card>
+      <mat-card-content>
+        <h2 class="mat-title">Your images are being processed. Please Wait</h2>
       </mat-card-content>
     </mat-card>
+  </div>
+</div>
+<div class="image-resize-wrapper resize-completed" *ngIf="imagesSelected && imagesResized">
+  <div *ngIf="!imagesResizing">
+    <h2 class="mat-title">Preview Images</h2>
+    <div class="images-container">
+      <mat-card *ngFor="let imageData of imageFilesData" (mouseenter)="hoverImagEnter(imageData)"
+        (mouseleave)="hoverImagLeave(imageData)" [ngClass]="{'hovered': imageData.isHovered}">
+        <mat-card-content>
+          <div class="image-container">
+            <img [src]="imageData.resizeUrl">
+          </div>
+          <div class="image-data-container">
+            <div class="mat-h4">{{imageData.name}}</div>
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip matTooltip="Result dimensions" color="primary" selected>
+                {{imageData.resizeWidth || imageData.width}} X
+                {{imageData.resizeHeight || imageData.height}}
+                PX
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="loading-container" *ngIf="imagesResizing">
+    <mat-spinner color="accent" diameter="60"></mat-spinner>
   </div>
 </div>

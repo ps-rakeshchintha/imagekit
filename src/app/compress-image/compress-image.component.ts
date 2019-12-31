@@ -24,6 +24,8 @@ export class CompressImageComponent implements OnInit {
   imagesCount: number = 0;
   compressedImageCount: number = 0;
   compressQualityValue: number = 0.7;
+  filesUploading: boolean = false;
+  downloading: boolean = false;
 
   constructor(private redirectService: RedirectService, private seoService: SeoService, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef) {
     this.seoService.addMetaTags("Compress JPEG", "Compress any JPEGs by selecting the quality target as per required size.");
@@ -40,12 +42,14 @@ export class CompressImageComponent implements OnInit {
   }
 
   onFilesSelected(fileInput: any) {
+    this.filesUploading = true;
     var files = fileInput.target.files;
     files = [...files].filter(s => s.type.includes("image"));
     this.readFiles(files);
   }
 
   filesDropped(files: FileHandle[]): void {
+    this.filesUploading = true;
     this.readFiles(files.map(data => data.file).filter(s => s.type.includes("image/jpeg")));
   }
   readFiles(files: File[]) {
@@ -74,6 +78,7 @@ export class CompressImageComponent implements OnInit {
         }
         if (this.imageFilesData.length === files.length && !this.imagesSelected) {
           this.imagesSelected = true;
+          this.filesUploading = false;
           this.compressImages();
         }
       }
@@ -113,6 +118,7 @@ export class CompressImageComponent implements OnInit {
 
   compressImages() {
     for (const image of this.imageFilesData) {
+      image.compressUrl = null;
       this.compressImage(image);
     }
   }
@@ -130,9 +136,6 @@ export class CompressImageComponent implements OnInit {
           image.compressPrettySize = this.prettySize(result.size);
           this.compressedImageCount++;
           this.changeDetectorRef.detectChanges();
-          if (this.compressedImageCount === this.imageFilesData.length) {
-            console.log("refreshed");
-          }
         }
       }
     })
@@ -155,6 +158,7 @@ export class CompressImageComponent implements OnInit {
   }
 
   downloadImages() {
+    this.downloading = true;
     let zip: JSZip = new JSZip();
     const isSingleImage: boolean = this.imageFilesData.length === 1;
     for (const image of this.imageFilesData) {
@@ -163,11 +167,13 @@ export class CompressImageComponent implements OnInit {
         zip.file(image.name, imageUrl.split('base64,')[1], { base64: true })
       } else {
         FileSaver.saveAs(imageUrl, image.name);
+        this.downloading = false;
       }
     }
     if (!isSingleImage) {
-      zip.generateAsync({ type: "blob" }).then(function (content) {
+      zip.generateAsync({ type: "blob" }).then((content) => {
         FileSaver.saveAs(content, "download.zip");
+        this.downloading = false;
       });
     }
   }
