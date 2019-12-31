@@ -19,7 +19,7 @@ export class ResizeImageComponent implements OnInit {
   imagesSelected: boolean = false;
   imagesResized: boolean = false;
   imagesResizing: boolean = false;
-  fileUploading: boolean = false;
+  filesUploading: boolean = false;
   downloading: boolean = false;
   imageId: number = 0;
   imagesCount: number = 0;
@@ -46,7 +46,7 @@ export class ResizeImageComponent implements OnInit {
   }
 
   onFilesSelected(fileInput: any) {
-    this.fileUploading = true;
+    this.filesUploading = true;
     setTimeout(() => {
       var files = fileInput.target.files;
       files = [...files].filter(s => s.type.includes("image"))
@@ -55,7 +55,7 @@ export class ResizeImageComponent implements OnInit {
   }
 
   filesDropped(files: FileHandle[]): void {
-    this.fileUploading = true;
+    this.filesUploading = true;
     setTimeout(() => {
       this.readFiles(files.map(data => data.file).filter(s => s.type.includes("image")));
     }, 200);
@@ -94,7 +94,7 @@ export class ResizeImageComponent implements OnInit {
           }
           if (this.imageFilesData.length === files.length && !this.imagesSelected) {
             this.imagesSelected = true;
-            this.fileUploading = false;
+            this.filesUploading = false;
           }
         };
       }

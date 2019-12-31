@@ -1,7 +1,7 @@
 <div class="file-upload-wrapper" *ngIf="!imagesSelected && !imagesResized">
   <h1 class="mat-display-3">Resize Images</h1>
   <h2 class="mat-headline">Resize <b>JPG</b>, <b>PNG</b> or <b>GIF</b> by providing the width and height required</h2>
-  <div *ngIf="!fileUploading" class="file-upload-container" appDragDrop (files)="filesDropped($event)">
+  <div *ngIf="!filesUploading" class="file-upload-container" appDragDrop (files)="filesDropped($event)">
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" width="108" height="94" viewBox="0 0 108 94">
         <path fill="#d4d7de" fill-rule="evenodd"
@@ -14,7 +14,7 @@
         id="resize-image-1">
     </div>
   </div>
-  <div class="loading-container" *ngIf="fileUploading">
+  <div class="loading-container" *ngIf="filesUploading">
     <mat-spinner color="accent" diameter="60"></mat-spinner>
   </div>
 </div>
