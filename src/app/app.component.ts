@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { filter } from 'rxjs/operators';
 import { DOCUMENT } from "@angular/common";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,11 @@ export class AppComponent {
   showMobileMenu: boolean;
   showMobileMenuIcon: boolean;
   currentRoute: string;
+  breakPointSubscription : Subscription;
+  routerSubscription: Subscription;
 
-  constructor(breakpointObserver: BreakpointObserver, router: Router, @Inject(DOCUMENT) private document: Document) {
-    breakpointObserver.observe([
+  constructor(private breakpointObserver: BreakpointObserver, router: Router, @Inject(DOCUMENT) private document: Document) {
+    this.breakPointSubscription = breakpointObserver.observe([
       Breakpoints.HandsetLandscape,
       Breakpoints.HandsetPortrait
     ]).subscribe(result => {
@@ -34,6 +37,11 @@ export class AppComponent {
         link.href = this.getCanonicalUrl();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+      this.routerSubscription.unsubscribe();
+      this.breakPointSubscription.unsubscribe();
   }
 
   getCanonicalUrl() {
