@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/server",
-    "deploy": "npm run build:ssr && node purify && gcloud app deploy",
+    "deploy": "npm run build:ssr && node purify && gcloud app deploy --quiet",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
